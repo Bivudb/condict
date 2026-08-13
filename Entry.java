@@ -12,5 +12,7 @@ public class Entry {
 		this.translation = translation;
 		this.pos = pos;
 	}
-
+	public String toString() {
+	    return word + " [" + ipa + "] - " + translation + " (" + pos + ")";
+	}
 }
