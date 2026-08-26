@@ -1,69 +1,107 @@
 package condict;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 
-class Main {
+public class Dictionary {
+	HashMap<String, Entry> dict = new HashMap<>();
 
-	public static void createDictionary(Scanner sc, Dictionary dict) {
-		System.out.println("Would you like to add words(1), go back to the main menu(2)");
-		String choice = sc.nextLine();
-		if (choice.equals("1")) {
-
-			int Runs = 1;
-			Boolean entriesDone = false;
-			while (!entriesDone) {
-				if (Runs > 1) {
-					System.out.println("If you are finished type STOP");
-				}
-
-				System.out.println("What is your word called in its language:");
-				String word = sc.nextLine();
-				if (word.equals("STOP")) {
-					dict.fileSaver();
-					} else {
-					Runs++;
-					System.out.println("Enter pronunciation: ");
-					String ipa = sc.nextLine();
-					System.out.println("Enter translation into English: ");
-					String translation = sc.nextLine();
-					String key = translation;
-					System.out.println("Enter part of speech: ");
-					String pos = sc.nextLine();
-					Entry entry = new Entry(word, ipa, translation, pos);
-
-					dict.addEntry(key, entry);
-				} 
-		} 
-		} else if (choice.equals("2")) {
-
+	String cLang;
+	
+	
+	public void searchWord(String item) {
+		Entry word = dict.get(item);
+		if (word != null) {
+			System.out.println("Word Found");	
+			System.out.println(item);
 		} else {
-			System.out.println("Invalid response");
+			System.out.println("Unable to find word with that translation");
+		}
+	}
+	
+	public HashMap<String, Entry> addEntry(String key, Entry entry) {
+		dict.put(key, entry);
+		return dict;
+	}
+
+	public boolean fileSaver() {
+		String sep = File.separator;
+		String home = System.getProperty("user.home");
+		String filePath = home + sep + "Documents" + sep + "Dictionary" + sep + cLang + ".txt";
+		try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+			for (Entry e : dict.values()) {
+				writer.println(e.word + "|" + e.ipa + "|" + e.translation + "|" + e.pos + "|" + e.Etymology + "|"
+						+ e.Description + "|" + e.exampleSentence + "|" + e.compoundInfo);
+			}
+			System.out.println("Dictionary Saved");
+			return true;
+		} catch (IOException e) {
+			System.out.println("Could not save");
+			return false;
 		}
 	}
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-			
-		System.out.println("Welcome to Condict");
-		System.out.println("Would you like to create a new dictonary (1) or load up a existing one(2)?");
-		String choice = sc.nextLine();
+	public void fileLoader(File loadFiles, String Lang, Scanner sc, Dictionary dict) {
+		String sep = File.separator;
+		String home = System.getProperty("user.home");
+		String filePath = home + sep + "Documents" + sep + "Dictionary" + sep + Lang + ".txt";
 
-		Boolean validChoice = false;
-		while (!validChoice) {
-			if (choice.equals("1")) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] parts = null;
+				parts = line.split("\\|");
+				String word = parts[0];
+				String ipa = parts[1];
+				String translation = parts[2];
+				String pos = parts[3];
+				String Etymology = parts[4];
+				String Description = parts[5];
+				String exampleSentence = parts[6];
+				String compoundInfo = parts[7];
+				Entry entry = new Entry(word, ipa, translation, pos, Etymology, Description, exampleSentence,
+						compoundInfo);
 
-				Dictionary dict = new Dictionary();
-				System.out.println("What is the name of your language?");
-				dict.cLang = sc.nextLine();
-				validChoice = true;
-				createDictionary(sc, dict);
-			} else if (choice.equals("2")) {
+				dict.addEntry(translation, entry);
 
-			} else {
-				System.out.println("Invalid choice");
 			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File does not exist");
+		} catch (IOException e) {
+			System.out.println("Unable to to read file");
 		}
-}
+		System.out.println(
+				"What you like to do with your file? 1. Add words 2. Edit words 3. Delete words 4. Search up words");
+		int choice = 0;
+		try {
+			choice = sc.nextInt();
+			sc.nextLine();
+		} catch (InputMismatchException e) {
+			System.out.println("Not a number");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Number too large");
+		}
+
+		if (choice == 1) {
+			Main.createDictionary(sc, dict);
+		} else if (choice == 2) {
+			
+		} else if (choice == 3) {
+		
+		} else if (choice == 4) { 
+			System.out.println("Type in the word you would like to search for (enter English translation)");
+			String item = sc.nextLine();
+			sc.nextLine();
+			
+			searchWord(item);
+		}
+	}
 }
