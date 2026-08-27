@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
@@ -15,18 +16,29 @@ public class Dictionary {
 	HashMap<String, Entry> dict = new HashMap<>();
 
 	String cLang;
-	
-	
+
+	public void displayList() {
+		ArrayList <Entry>wordList = new ArrayList<>();
+		for (Entry entry : dict.values()) {
+			wordList.add(entry);
+		}
+		
+		for (int i = 0; i < wordList.size() && i < 50; i++) {
+			Entry entry = wordList.get(i)
+			System.out.println((i+1) + ". " + entry);
+		}
+	}
+
 	public void searchWord(String item) {
 		Entry word = dict.get(item);
 		if (word != null) {
-			System.out.println("Word Found");	
+			System.out.println("Word Found");
 			System.out.println(item);
 		} else {
 			System.out.println("Unable to find word with that translation");
 		}
 	}
-	
+
 	public HashMap<String, Entry> addEntry(String key, Entry entry) {
 		dict.put(key, entry);
 		return dict;
@@ -93,14 +105,14 @@ public class Dictionary {
 		if (choice == 1) {
 			Main.createDictionary(sc, dict);
 		} else if (choice == 2) {
-			
+
 		} else if (choice == 3) {
-		
-		} else if (choice == 4) { 
+			displayList(entry);
+		} else if (choice == 4) {
 			System.out.println("Type in the word you would like to search for (enter English translation)");
 			String item = sc.nextLine();
 			sc.nextLine();
-			
+
 			searchWord(item);
 		}
 	}
