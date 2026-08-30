@@ -17,15 +17,95 @@ public class Dictionary {
 
 	String cLang;
 
-	public void displayList() {
-		ArrayList <Entry>wordList = new ArrayList<>();
+	public void editWord(Scanner sc, Entry option) {
+		System.out.println(
+				"For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
+		System.out.println("If you are finished type STOP to exit and save");
+		String strChoice = sc.nextLine();
+		if (strChoice.equalsIgnoreCase("STOP")) {
+		} else {
+			System.out.println("What is your word called in its language:");
+			System.out.println(option.word);
+			String word = sc.nextLine();
+			System.out.println("Enter pronunciation: ");
+			System.out.println(option.ipa);
+			String ipa = sc.nextLine();
+			System.out.println(
+					"Enter translation into English(If you cahgne this instead of editing the existing word a new word will be created): ");
+			System.out.println(option.translation);
+			String translation = sc.nextLine();
+			String key = translation;
+			System.out.println("Enter part of speech: ");
+			System.out.println(option.pos);
+			String pos = sc.nextLine();
+			System.out.println("If this is a compound word type the words it is a compound of (Optional):");
+			System.out.println(option.compoundInfo);
+			String compoundInfo = sc.nextLine();
+			System.out.println("If needed type a description (Optional):");
+			System.out.println(option.Description);
+			String Description = sc.nextLine();
+			System.out.println(
+					"If this word derives from another word through evolution list the language and word (Optional): ");
+			System.out.println(option.Etymology);
+			String Etymology = sc.nextLine();
+			System.out.println("Include the word in an example sentence(Optional): ");
+			System.out.println(option.exampleSentence);
+			String exampleSentence = sc.nextLine();
+
+			Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description, exampleSentence);
+
+			addEntry(key, entry);
+		}
+	}
+
+	public void displayList(int choice, Scanner sc) {
+		ArrayList<Entry> wordList = new ArrayList<>();
 		for (Entry entry : dict.values()) {
 			wordList.add(entry);
 		}
-		
-		for (int i = 0; i < wordList.size() && i < 50; i++) {
-			Entry entry = wordList.get(i)
-			System.out.println((i+1) + ". " + entry);
+		boolean doneEditing = false;
+		int displaySize = 50;
+		while (doneEditing != true) {
+			for (int i = 0; i < wordList.size() && i < displaySize; i++) {
+				Entry entry = wordList.get(i);
+				System.out.println((i + 1) + ". " + entry);
+			}
+			
+			if (choice == 3) {
+				String strchoice;
+				int ichoice = 0;
+			System.out.print("Type the number of the word you would like to edit or type MORE to display more entries");
+				strchoice = sc.nextLine();
+				sc.nextLine();
+
+				try {
+					ichoice = Integer.parseInt(strchoice);
+				} catch (NumberFormatException e) {
+					if (strchoice.equalsIgnoreCase("More")) {
+						displaySize = displaySize + 25;
+					} else {
+						System.out.println("Invalid Answer");
+					}
+				}
+			
+				
+				if (ichoice > displaySize) {
+					System.out.println("Number too large");
+				} else {
+					
+					Entry option = wordList.get(ichoice);
+					System.out.println("If you are finished editing type STOP to exit");
+					strchoice = sc.nextLine();
+					sc.nextLine();
+					if (strchoice.equalsIgnoreCase("stop")) {
+						doneEditing = true;
+					} else {
+					editWord(sc, option);
+				}
+				}
+			} else {
+				System.out.println("Type the number of the word you would like to delete or type MORE to display more entries");
+			}
 		}
 	}
 
@@ -107,7 +187,7 @@ public class Dictionary {
 		} else if (choice == 2) {
 
 		} else if (choice == 3) {
-			displayList(entry);
+			displayList(choice, sc);
 		} else if (choice == 4) {
 			System.out.println("Type in the word you would like to search for (enter English translation)");
 			String item = sc.nextLine();
