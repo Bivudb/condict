@@ -9,8 +9,9 @@ public class Entry {
 	String Description;
 	String Etymology;
 	String exampleSentence;
-	
-	Entry(String word, String ipa, String translation, String pos, String compoundInfo, String Etymology, String Description, String exampleSentence) {
+
+	Entry(String word, String ipa, String translation, String pos, String compoundInfo, String Etymology,
+			String Description, String exampleSentence) {
 		this.word = word;
 		this.ipa = ipa;
 		this.translation = translation;
@@ -20,7 +21,9 @@ public class Entry {
 		this.Etymology = Etymology;
 		this.exampleSentence = exampleSentence;
 	}
+
 	public String toString() {
-	    return word + " [" + ipa + "] - " + translation + " (" + pos + ")" + compoundInfo + "(" + Description + ")" + Etymology + "[" + exampleSentence + "]";
+		return word + " [" + ipa + "] - " + translation + " (" + pos + ")" + compoundInfo + "(" + Description + ")"
+				+ Etymology + "[" + exampleSentence + "]";
 	}
 }
