@@ -18,7 +18,8 @@ public class Dictionary {
 	String cLang;
 
 	public void editWord(Scanner sc, Entry option) {
-		System.out.println("For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
+		System.out.println(
+				"For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
 		System.out.println("If you are finished type STOP to exit and save");
 		String strChoice = sc.nextLine();
 		if (strChoice.equalsIgnoreCase("STOP")) {
@@ -43,7 +44,8 @@ public class Dictionary {
 			System.out.println("If needed type a description (Optional):");
 			System.out.println(option.Description);
 			String Description = sc.nextLine();
-			System.out.println("If this word derives from another word through evolution list the language and word (Optional): ");
+			System.out.println(
+					"If this word derives from another word through evolution list the language and word (Optional): ");
 			System.out.println(option.Etymology);
 			String Etymology = sc.nextLine();
 			System.out.println("Include the word in an example sentence(Optional): ");
@@ -60,20 +62,21 @@ public class Dictionary {
 		int displaySize = 50;
 		boolean doneEditing = false;
 		while (doneEditing != true) {
-		ArrayList<Entry> wordList = new ArrayList<>();
-		for (Entry entry : dict.values()) {
-			wordList.add(entry);
-		}
-		
+			ArrayList<Entry> wordList = new ArrayList<>();
+			for (Entry entry : dict.values()) {
+				wordList.add(entry);
+			}
+
 			for (int i = 0; i < wordList.size() && i < displaySize; i++) {
 				Entry entry = wordList.get(i);
 				System.out.println((i + 1) + ". " + entry);
 			}
-			
+
 			if (choice == 3) {
 				String strchoice;
 				int ichoice = 0;
-				System.out.print("Type the number of the word you would like to edit or type MORE to display more entries");
+				System.out.print(
+						"Type the number of the word you would like to edit or type MORE to display more entries");
 				strchoice = sc.nextLine();
 				sc.nextLine();
 
@@ -86,12 +89,12 @@ public class Dictionary {
 						System.out.println("Invalid Answer");
 					}
 				}
-			
-				
+
 				if (ichoice > displaySize || ichoice > wordList.size()) {
 					System.out.println("Number too large");
 				} else {
-					
+
+					ichoice = ichoice - 1;
 					Entry option = wordList.get(ichoice);
 					System.out.println("If you are finished editing type STOP to exit");
 					strchoice = sc.nextLine();
@@ -99,13 +102,14 @@ public class Dictionary {
 					if (strchoice.equalsIgnoreCase("stop")) {
 						doneEditing = fileSaver();
 					} else {
-					editWord(sc, option);
-				}
+						editWord(sc, option);
+					}
 				}
 			} else {
 				String strchoice;
 				int ichoice = 0;
-				System.out.println("Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
+				System.out.println(
+						"Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
 				strchoice = sc.nextLine();
 				sc.nextLine();
 
@@ -120,34 +124,33 @@ public class Dictionary {
 						System.out.println("Invalid Answer");
 					}
 				}
-			
-				
+
 				if (ichoice > displaySize || ichoice > wordList.size()) {
 					System.out.println("Number too large");
 				} else {
 					boolean validAnswer = false;
 					while (validAnswer == false) {
-					System.out.println("Are you sure you want to delete this word?");
-					strchoice = sc.nextLine();
-					sc.nextLine();
-					if (strchoice.equalsIgnoreCase("yes")) {
-					validAnswer = true;
-					Entry option = wordList.get(ichoice);
-					System.out.println("If you are finished deleting words type STOP to exit");
-					strchoice = sc.nextLine();
-					sc.nextLine();
-					if (strchoice.equalsIgnoreCase("stop")) {
-						doneEditing = fileSaver();
-					} else {
-					String key = option.translation;
-					dict.remove(key);
-					} 
-					
-					} else if (strchoice.equalsIgnoreCase("no")) {
-						validAnswer = true;
-					} else {
-						System.out.println("Invalid Answer");
-					}
+						System.out.println("Are you sure you want to delete this word?");
+						strchoice = sc.nextLine();
+						sc.nextLine();
+						if (strchoice.equalsIgnoreCase("yes")) {
+							validAnswer = true;
+							Entry option = wordList.get(ichoice);
+							System.out.println("If you are finished deleting words type STOP to exit");
+							strchoice = sc.nextLine();
+							sc.nextLine();
+							if (strchoice.equalsIgnoreCase("stop")) {
+								doneEditing = fileSaver();
+							} else {
+								String key = option.translation;
+								dict.remove(key);
+							}
+
+						} else if (strchoice.equalsIgnoreCase("no")) {
+							validAnswer = true;
+						} else {
+							System.out.println("Invalid Answer");
+						}
 					}
 				}
 			}
@@ -188,62 +191,63 @@ public class Dictionary {
 
 	public void fileLoader(File loadFiles, String Lang, Scanner sc, Dictionary dict) {
 		String sep = File.separator;
-		String home = System.getProperty("user.home"); 
+		String home = System.getProperty("user.home");
 		String filePath = home + sep + "Documents" + sep + "Dictionary" + sep + Lang + ".txt";
 		boolean fileFinished = false;
 		while (fileFinished == false) {
-		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] parts = null;
-				parts = line.split("\\|");
-				String word = parts[0];
-				String ipa = parts[1];
-				String translation = parts[2];
-				String pos = parts[3];
-				String Etymology = parts[4];
-				String Description = parts[5];
-				String exampleSentence = parts[6];
-				String compoundInfo = parts[7];
-				Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description, exampleSentence);
+			try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					String[] parts = null;
+					parts = line.split("\\|");
+					String word = parts[0];
+					String ipa = parts[1];
+					String translation = parts[2];
+					String pos = parts[3];
+					String Etymology = parts[4];
+					String Description = parts[5];
+					String exampleSentence = parts[6];
+					String compoundInfo = parts[7];
+					Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description,
+							exampleSentence);
 
-				dict.addEntry(translation, entry);
+					dict.addEntry(translation, entry);
 
+				}
+			} catch (FileNotFoundException e) {
+				System.out.println("File does not exist");
+			} catch (IOException e) {
+				System.out.println("Unable to to read file");
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("File does not exist");
-		} catch (IOException e) {
-			System.out.println("Unable to to read file");
-		}
-		System.out.println(
-				"What you like to do with your file? 1. Add words 2. Edit words 3. Delete words 4. Search up words 5. Go Back");
-		int choice = 0;
-		try {
-			choice = sc.nextInt();
-			sc.nextLine();
-		} catch (InputMismatchException e) {
-			System.out.println("Not a number");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Number too large");
-		}
+			System.out.println(
+					"What you like to do with your file? 1. Add words 2. Edit words 3. Delete words 4. Search up words 5. Go Back");
+			int choice = 0;
+			try {
+				choice = sc.nextInt();
+				sc.nextLine();
+			} catch (InputMismatchException e) {
+				System.out.println("Not a number");
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("Number too large");
+			}
 
-		if (choice == 1) {
-			Main.createDictionary(sc, dict);
-		} else if (choice == 2) {
-			displayList(choice, sc);
-		} else if (choice == 3) {
-			displayList(choice, sc);
-		} else if (choice == 4) {
-			System.out.println("Type in the word you would like to search for (enter English translation)");
-			String item = sc.nextLine();
-			sc.nextLine();
+			if (choice == 1) {
+				Main.createDictionary(sc, dict);
+			} else if (choice == 2) {
+				displayList(choice, sc);
+			} else if (choice == 3) {
+				displayList(choice, sc);
+			} else if (choice == 4) {
+				System.out.println("Type in the word you would like to search for (enter English translation)");
+				String item = sc.nextLine();
+				sc.nextLine();
 
-			searchWord(item);
-		} else if (choice == 5) {
-			fileFinished = true; 
-		} else {
-			System.out.println("Invalid Answer");
+				searchWord(item);
+			} else if (choice == 5) {
+				fileFinished = true;
+			} else {
+				System.out.println("Invalid Answer");
+			}
 		}
-	}
 	}
 }
