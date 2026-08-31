@@ -204,10 +204,10 @@ public class Dictionary {
 					String ipa = parts[1];
 					String translation = parts[2];
 					String pos = parts[3];
-					String Etymology = parts[4];
-					String Description = parts[5];
-					String exampleSentence = parts[6];
-					String compoundInfo = parts[7];
+					String Etymology = (parts.length >= 5) ? parts[4] : "";
+					String Description = (parts.length >= 6) ? parts[5] : "";
+					String exampleSentence = (parts.length >= 7) ? parts[6] : "";
+					String compoundInfo = (parts.length >= 8) ? parts[7] : "";
 					Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description,
 							exampleSentence);
 
