@@ -14,8 +14,9 @@ class Main {
 		Boolean entriesDone = false;
 		while (!entriesDone) {
 			if (choice.equals("1")) {
-				
-				System.out.println("For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
+
+				System.out.println(
+						"For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
 				System.out.println("If you are finished type STOP to exit and save");
 				String strChoice = sc.nextLine();
 				if (strChoice.equalsIgnoreCase("STOP")) {
@@ -34,12 +35,14 @@ class Main {
 					String compoundInfo = sc.nextLine();
 					System.out.println("If needed type a description: (Optional)");
 					String Description = sc.nextLine();
-					System.out.println("If this word derives from another word through evolution list the language and word with a | inbetween(Optional)");
+					System.out.println(
+							"If this word derives from another word through evolution list the language and word with a | inbetween(Optional)");
 					String Etymology = sc.nextLine();
 					System.out.println("Include the word in an example sentence(Optional): ");
 					String exampleSentence = sc.nextLine();
 
-					Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description, exampleSentence);
+					Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description,
+							exampleSentence);
 
 					dict.addEntry(key, entry);
 				}
@@ -55,11 +58,11 @@ class Main {
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Welcome to Condict");
-		
+
 		Boolean validChoice = false;
 		while (!validChoice) {
-		System.out.println("Would you like to create a new dictonary (1) or load up a existing one(2)?");
-		String choice = sc.nextLine();
+			System.out.println("Would you like to create a new dictonary (1) or load up a existing one(2)?");
+			String choice = sc.nextLine();
 
 			if (choice.equals("1")) {
 
@@ -74,30 +77,30 @@ class Main {
 				File[] files = folder.listFiles();
 				if (files == null || files.length == 0) {
 					System.out.println("No Saves found");
+				} else {
+					for (int i = 0; i < files.length; i++) {
+						System.out.println((i + 1) + ". " + files[i].getName());
+					}
+					System.out.println("Which dictionary do you want to load");
+					int ichoice = 0;
+					try {
+						ichoice = sc.nextInt();
+						sc.nextLine();
+					} catch (InputMismatchException e) {
+						System.out.println("Not a number");
+					} catch (ArrayIndexOutOfBoundsException e) {
+						System.out.println("Number too large");
+					}
+
+					int index = ichoice - 1;
+
+					File loadFiles = files[index];
+
+					String Lang = loadFiles.getName().replace(".txt", "");
+
+					Dictionary dict = new Dictionary();
+					dict.fileLoader(loadFiles, Lang, sc, dict);
 				}
-				for (int i = 0; i < files.length; i++) {
-					System.out.println((i + 1) + ". " + files[i].getName());
-				}
-				System.out.println("Which dictionary do you want to load");
-				int ichoice = 0;
-				try {
-					ichoice = sc.nextInt();
-					sc.nextLine();
-				} catch (InputMismatchException e) {
-					System.out.println("Not a number");
-				} catch (ArrayIndexOutOfBoundsException e) {
-					System.out.println("Number too large");
-				}
-
-				int index = ichoice - 1;
-
-				File loadFiles = files[index];
-
-				String Lang = loadFiles.getName().replace(".txt", "");
-				
-				Dictionary dict = new Dictionary();
-				dict.fileLoader(loadFiles, Lang, sc, dict);
-
 			} else {
 				System.out.println("Invalid choice");
 			}
