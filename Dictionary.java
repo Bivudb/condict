@@ -57,13 +57,14 @@ public class Dictionary {
 	}
 
 	public void displayList(int choice, Scanner sc) {
+		int displaySize = 50;
+		boolean doneEditing = false;
+		while (doneEditing != true) {
 		ArrayList<Entry> wordList = new ArrayList<>();
 		for (Entry entry : dict.values()) {
 			wordList.add(entry);
 		}
-		boolean doneEditing = false;
-		int displaySize = 50;
-		while (doneEditing != true) {
+		
 			for (int i = 0; i < wordList.size() && i < displaySize; i++) {
 				Entry entry = wordList.get(i);
 				System.out.println((i + 1) + ". " + entry);
@@ -87,7 +88,7 @@ public class Dictionary {
 				}
 			
 				
-				if (ichoice > displaySize) {
+				if (ichoice > displaySize || ichoice > wordList.size()) {
 					System.out.println("Number too large");
 				} else {
 					
@@ -96,7 +97,7 @@ public class Dictionary {
 					strchoice = sc.nextLine();
 					sc.nextLine();
 					if (strchoice.equalsIgnoreCase("stop")) {
-						doneEditing = true;
+						doneEditing = fileSaver();
 					} else {
 					editWord(sc, option);
 				}
@@ -121,7 +122,7 @@ public class Dictionary {
 				}
 			
 				
-				if (ichoice > displaySize) {
+				if (ichoice > displaySize || ichoice > wordList.size()) {
 					System.out.println("Number too large");
 				} else {
 					boolean validAnswer = false;
@@ -136,7 +137,7 @@ public class Dictionary {
 					strchoice = sc.nextLine();
 					sc.nextLine();
 					if (strchoice.equalsIgnoreCase("stop")) {
-						doneEditing = true;
+						doneEditing = fileSaver();
 					} else {
 					String key = option.translation;
 					dict.remove(key);
@@ -187,10 +188,10 @@ public class Dictionary {
 
 	public void fileLoader(File loadFiles, String Lang, Scanner sc, Dictionary dict) {
 		String sep = File.separator;
-		String home = System.getProperty("user.home");
+		String home = System.getProperty("user.home"); 
 		String filePath = home + sep + "Documents" + sep + "Dictionary" + sep + Lang + ".txt";
-		boolean fileFinished;
-		while (fileFinished = false) {
+		boolean fileFinished = false;
+		while (fileFinished == false) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -204,8 +205,7 @@ public class Dictionary {
 				String Description = parts[5];
 				String exampleSentence = parts[6];
 				String compoundInfo = parts[7];
-				Entry entry = new Entry(word, ipa, translation, pos, Etymology, Description, exampleSentence,
-						compoundInfo);
+				Entry entry = new Entry(word, ipa, translation, pos, compoundInfo, Etymology, Description, exampleSentence);
 
 				dict.addEntry(translation, entry);
 
