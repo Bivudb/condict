@@ -201,9 +201,9 @@ public class Dictionary {
 					String[] parts = null;
 					parts = line.split("\\|");
 					String word = parts[0];
-					String ipa = parts[1];
-					String translation = parts[2];
-					String pos = parts[3];
+					String ipa = (parts.length >= 2) ? parts[1] : "";
+					String translation = (parts.length >= 3) ? parts[2] : "";
+					String pos = (parts.length >= 4) ? parts[3] : "";
 					String Etymology = (parts.length >= 5) ? parts[4] : "";
 					String Description = (parts.length >= 6) ? parts[5] : "";
 					String exampleSentence = (parts.length >= 7) ? parts[6] : "";
@@ -250,4 +250,3 @@ public class Dictionary {
 			}
 		}
 	}
-}
