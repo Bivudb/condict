@@ -18,8 +18,7 @@ public class Dictionary {
 	String cLang;
 
 	public void editWord(Scanner sc, Entry option) {
-		System.out.println(
-				"For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
+		System.out.println("For any fields labled optional just press enter and nothing else if you do not wish to fill in the field");
 		System.out.println("If you are finished type STOP to exit and save");
 		String strChoice = sc.nextLine();
 		if (strChoice.equalsIgnoreCase("STOP")) {
@@ -44,8 +43,7 @@ public class Dictionary {
 			System.out.println("If needed type a description (Optional):");
 			System.out.println(option.Description);
 			String Description = sc.nextLine();
-			System.out.println(
-					"If this word derives from another word through evolution list the language and word (Optional): ");
+			System.out.println("If this word derives from another word through evolution list the language and word (Optional): ");
 			System.out.println(option.Etymology);
 			String Etymology = sc.nextLine();
 			System.out.println("Include the word in an example sentence(Optional): ");
@@ -74,7 +72,7 @@ public class Dictionary {
 			if (choice == 3) {
 				String strchoice;
 				int ichoice = 0;
-			System.out.print("Type the number of the word you would like to edit or type MORE to display more entries");
+				System.out.print("Type the number of the word you would like to edit or type MORE to display more entries");
 				strchoice = sc.nextLine();
 				sc.nextLine();
 
@@ -104,7 +102,53 @@ public class Dictionary {
 				}
 				}
 			} else {
-				System.out.println("Type the number of the word you would like to delete or type MORE to display more entries");
+				String strchoice;
+				int ichoice = 0;
+				System.out.println("Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
+				strchoice = sc.nextLine();
+				sc.nextLine();
+
+				try {
+					ichoice = Integer.parseInt(strchoice);
+				} catch (NumberFormatException e) {
+					if (strchoice.equalsIgnoreCase("More")) {
+						displaySize = displaySize + 25;
+					} else if (strchoice.equalsIgnoreCase("exit")) {
+						doneEditing = true;
+					} else {
+						System.out.println("Invalid Answer");
+					}
+				}
+			
+				
+				if (ichoice > displaySize) {
+					System.out.println("Number too large");
+				} else {
+					boolean validAnswer = false;
+					while (validAnswer == false) {
+					System.out.println("Are you sure you want to delete this word?");
+					strchoice = sc.nextLine();
+					sc.nextLine();
+					if (strchoice.equalsIgnoreCase("yes")) {
+					validAnswer = true;
+					Entry option = wordList.get(ichoice);
+					System.out.println("If you are finished deleting words type STOP to exit");
+					strchoice = sc.nextLine();
+					sc.nextLine();
+					if (strchoice.equalsIgnoreCase("stop")) {
+						doneEditing = true;
+					} else {
+					String key = option.translation;
+					dict.remove(key);
+					} 
+					
+					} else if (strchoice.equalsIgnoreCase("no")) {
+						validAnswer = true;
+					} else {
+						System.out.println("Invalid Answer");
+					}
+					}
+				}
 			}
 		}
 	}
@@ -145,7 +189,8 @@ public class Dictionary {
 		String sep = File.separator;
 		String home = System.getProperty("user.home");
 		String filePath = home + sep + "Documents" + sep + "Dictionary" + sep + Lang + ".txt";
-
+		boolean fileFinished;
+		while (fileFinished = false) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -171,7 +216,7 @@ public class Dictionary {
 			System.out.println("Unable to to read file");
 		}
 		System.out.println(
-				"What you like to do with your file? 1. Add words 2. Edit words 3. Delete words 4. Search up words");
+				"What you like to do with your file? 1. Add words 2. Edit words 3. Delete words 4. Search up words 5. Go Back");
 		int choice = 0;
 		try {
 			choice = sc.nextInt();
@@ -185,7 +230,7 @@ public class Dictionary {
 		if (choice == 1) {
 			Main.createDictionary(sc, dict);
 		} else if (choice == 2) {
-
+			displayList(choice, sc);
 		} else if (choice == 3) {
 			displayList(choice, sc);
 		} else if (choice == 4) {
@@ -194,6 +239,11 @@ public class Dictionary {
 			sc.nextLine();
 
 			searchWord(item);
+		} else if (choice == 5) {
+			fileFinished = true; 
+		} else {
+			System.out.println("Invalid Answer");
 		}
+	}
 	}
 }
