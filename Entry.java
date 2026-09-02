@@ -23,7 +23,12 @@ public class Entry {
 	}
 
 	public String toString() {
-		return word + " [" + ipa + "] - " + translation + " (" + pos + ")" + compoundInfo + "(" + Description + ")"
-				+ Etymology + "[" + exampleSentence + "]";
+		String posPart = pos.equals("") ? "" : " (" + pos + ")";
+		String compoundPart = compoundInfo.equals("") ? "" : compoundInfo;
+		String descPart = Description.equals("") ? "" : "(" + Description + ")";
+		String etymologyPart = Etymology.equals("") ? "" : Etymology;
+		String examplePart = exampleSentence.equals("") ? "" : "[" + exampleSentence + "]";
+
+		return word + " [" + ipa + "] " + translation + posPart + compoundPart + descPart + etymologyPart + examplePart;
 	}
 }
