@@ -74,9 +74,9 @@ public class Dictionary {
 
 			String strchoice;
 			int ichoice = 0;
-			
+
 			if (choice == 2) {
-				
+
 				System.out.println(
 						"Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
 				strchoice = sc.nextLine();
@@ -108,54 +108,54 @@ public class Dictionary {
 							editWord(sc, option);
 						}
 					}
-				} 
-			}else {
-					strchoice = "";
-					ichoice = 0;
-					System.out.println(
-							"Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
-					strchoice = sc.nextLine();
+				}
+			} else {
+				strchoice = "";
+				ichoice = 0;
+				System.out.println(
+						"Type the number of the word you would like to delete or type MORE to display more entries or type EXIT to leave");
+				strchoice = sc.nextLine();
 
-					try {
-						ichoice = Integer.parseInt(strchoice);
-					} catch (NumberFormatException e) {
-						if (strchoice.equalsIgnoreCase("More")) {
-							displaySize = displaySize + 25;
-						} else if (strchoice.equalsIgnoreCase("exit")) {
-							doneEditing = true;
-						} else {
-							System.out.println("Invalid Answer");
-						}
+				try {
+					ichoice = Integer.parseInt(strchoice);
+				} catch (NumberFormatException e) {
+					if (strchoice.equalsIgnoreCase("More")) {
+						displaySize = displaySize + 25;
+					} else if (strchoice.equalsIgnoreCase("exit")) {
+						doneEditing = true;
+					} else {
+						System.out.println("Invalid Answer");
 					}
-					if (!strchoice.equalsIgnoreCase("more") && !strchoice.equalsIgnoreCase("exit")) {
-						if (ichoice > displaySize || ichoice > wordList.size()) {
-							System.out.println("Number too large");
-						} else {
-							boolean validAnswer = false;
-							while (validAnswer == false) {
-								System.out.println("Are you sure you want to delete this word?");
+				}
+				if (!strchoice.equalsIgnoreCase("more") && !strchoice.equalsIgnoreCase("exit")) {
+					if (ichoice > displaySize || ichoice > wordList.size()) {
+						System.out.println("Number too large");
+					} else {
+						boolean validAnswer = false;
+						while (validAnswer == false) {
+							System.out.println("Are you sure you want to delete this word?");
+							strchoice = sc.nextLine();
+							if (strchoice.equalsIgnoreCase("yes")) {
+								validAnswer = true;
+								Entry option = wordList.get(ichoice);
+								System.out.println("If you are finished deleting words type STOP to exit");
 								strchoice = sc.nextLine();
-								if (strchoice.equalsIgnoreCase("yes")) {
-									validAnswer = true;
-									Entry option = wordList.get(ichoice);
-									System.out.println("If you are finished deleting words type STOP to exit");
-									strchoice = sc.nextLine();
-									if (strchoice.equalsIgnoreCase("stop")) {
-										doneEditing = fileSaver();
-									} else {
-										String key = option.translation;
-										dict.remove(key);
-									}
-
-								} else if (strchoice.equalsIgnoreCase("no")) {
-									validAnswer = true;
+								if (strchoice.equalsIgnoreCase("stop")) {
+									doneEditing = fileSaver();
 								} else {
-									System.out.println("Invalid Answer");
+									String key = option.translation;
+									dict.remove(key);
 								}
+
+							} else if (strchoice.equalsIgnoreCase("no")) {
+								validAnswer = true;
+							} else {
+								System.out.println("Invalid Answer");
 							}
 						}
 					}
 				}
+			}
 		}
 	}
 
@@ -234,22 +234,22 @@ public class Dictionary {
 			if (choice > 5) {
 				System.out.println("Number too large");
 			}
-				if (choice == 1) {
-					Main.createDictionary(sc, dict);
-				} else if (choice == 2) {
-					displayList(choice, sc);
-				} else if (choice == 3) {
-					displayList(choice, sc);
-				} else if (choice == 4) {
-					System.out.println("Type in the word you would like to search for (enter English translation)");
-					String item = sc.nextLine();
+			if (choice == 1) {
+				Main.createDictionary(sc, dict);
+			} else if (choice == 2) {
+				displayList(choice, sc);
+			} else if (choice == 3) {
+				displayList(choice, sc);
+			} else if (choice == 4) {
+				System.out.println("Type in the word you would like to search for (enter English translation)");
+				String item = sc.nextLine();
 
-					searchWord(item);
-				} else if (choice == 5) {
-					fileFinished = true;
-				} else {
-					System.out.println("Invalid Answer");
-				}
+				searchWord(item);
+			} else if (choice == 5) {
+				fileFinished = true;
+			} else {
+				System.out.println("Invalid Answer");
+			}
 		}
 	}
-} 
+}
