@@ -83,23 +83,32 @@ class Main {
 					}
 					System.out.println("Which dictionary do you want to load");
 					int ichoice = 0;
+					boolean catchfound = false;
 					try {
 						ichoice = sc.nextInt();
 						sc.nextLine();
 					} catch (InputMismatchException e) {
 						System.out.println("Not a number");
-					} catch (ArrayIndexOutOfBoundsException e) {
-						System.out.println("Number too large");
+						sc.nextLine();
+						catchfound = true;
 					}
 
-					int index = ichoice - 1;
+					if (catchfound == false) {
+						int index = ichoice - 1;
+						File loadFiles = null;
+						try {
+							loadFiles = files[index];
+						} catch (ArrayIndexOutOfBoundsException e) {
+							System.out.println("Invalid Answer");
+						}
 
-					File loadFiles = files[index];
+						if (!(loadFiles == null)) {
+							String Lang = loadFiles.getName().replace(".txt", "");
 
-					String Lang = loadFiles.getName().replace(".txt", "");
-
-					Dictionary dict = new Dictionary();
-					dict.fileLoader(loadFiles, Lang, sc, dict);
+							Dictionary dict = new Dictionary();
+							dict.fileLoader(loadFiles, Lang, sc, dict);
+						}
+					}
 				}
 			} else {
 				System.out.println("Invalid choice");
